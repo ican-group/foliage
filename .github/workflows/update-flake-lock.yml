@@ -14,7 +14,8 @@ jobs:
           persist-credentials: false
       - uses: ./.github/actions/nix-setup
 
-      - uses: DeterminateSystems/update-flake-lock@da03c0f078bc4b2c37ee4f7e072d34bf8f188bb3 # v29
+      - id: update
+        uses: DeterminateSystems/update-flake-lock@da03c0f078bc4b2c37ee4f7e072d34bf8f188bb3 # v29
         with:
           # Title of PR to be created
           pr-title: "Update flake.lock"
@@ -23,4 +24,6 @@ jobs:
             dependencies
             automated
 
-      - run: echo Opened pull request ${{ steps.update.outputs.pull-request-number }}.
+      - env:
+          PR_NUMBER: ${{ steps.update.outputs.pull-request-number }}
+        run: echo "Opened pull request $PR_NUMBER."
