@@ -9,10 +9,10 @@ jobs:
   lockfile:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       - uses: ./.github/actions/nix-setup
 
-      - uses: DeterminateSystems/update-flake-lock@v20
+      - uses: DeterminateSystems/update-flake-lock@da03c0f078bc4b2c37ee4f7e072d34bf8f188bb3 # v29
         with:
           # Title of PR to be created
           pr-title: "Update flake.lock"
