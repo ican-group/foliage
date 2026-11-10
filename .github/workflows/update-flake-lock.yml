@@ -3,10 +3,17 @@ name: update-flake-lock
 on:
   workflow_dispatch: # allows manual triggering
   schedule:
-    - cron: "0 0 * * 0" # runs weekly on Sunday at 00:00
+    - cron: "11 2 * * 0" # runs weekly on Sunday
+
+permissions:
+  contents: read
 
 jobs:
   lockfile:
+    permissions:
+      contents: write  # push the update branch
+      issues: write  # add labels to the PR
+      pull-requests: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
