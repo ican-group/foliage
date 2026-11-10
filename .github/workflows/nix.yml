@@ -13,6 +13,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
       - uses: ./.github/actions/nix-setup
       - run: nix develop --command fourmolu -m check .
 
@@ -22,6 +24,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
       - uses: ./.github/actions/nix-setup
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
