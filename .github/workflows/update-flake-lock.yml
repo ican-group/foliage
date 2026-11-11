@@ -3,16 +3,26 @@ name: update-flake-lock
 on:
   workflow_dispatch: # allows manual triggering
   schedule:
-    - cron: "0 0 * * 0" # runs weekly on Sunday at 00:00
+    - cron: "11 2 * * 0" # runs weekly on Sunday
+
+permissions:
+  contents: read
 
 jobs:
   lockfile:
+    permissions:
+      contents: write  # push the update branch
+      issues: write  # add labels to the PR
+      pull-requests: write
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
       - uses: ./.github/actions/nix-setup
 
-      - uses: DeterminateSystems/update-flake-lock@v20
+      - id: update
+        uses: DeterminateSystems/update-flake-lock@da03c0f078bc4b2c37ee4f7e072d34bf8f188bb3 # v29
         with:
           # Title of PR to be created
           pr-title: "Update flake.lock"
@@ -21,4 +31,6 @@ jobs:
             dependencies
             automated
 
-      - run: echo Opened pull request ${{ steps.update.outputs.pull-request-number }}.
+      - env:
+          PR_NUMBER: ${{ steps.update.outputs.pull-request-number }}
+        run: echo "Opened pull request $PR_NUMBER."

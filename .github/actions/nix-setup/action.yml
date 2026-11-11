@@ -3,14 +3,16 @@ description: Installs and configures nix and related tools
 runs:
   using: "composite"
   steps:
-    - uses: DeterminateSystems/nix-installer-action@v21
+    - uses: DeterminateSystems/nix-installer-action@3138316df39ed29be04236d7ffc686fa525866aa # v23
       with:
         github-token: ${{ env.GITHUB_TOKEN }}
-        extra-conf: accept-flake-config = true
+        extra-conf: |
+          extra-substituters = https://cache.iog.io
+          extra-trusted-public-keys = hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ=
 
-    - uses: DeterminateSystems/magic-nix-cache-action@v13
+    - uses: DeterminateSystems/magic-nix-cache-action@84c0677f58dcedf3b91f8223ce36a9ea5b3c84b7 # v15
 
-    - uses: cachix/cachix-action@v16
+    - uses: cachix/cachix-action@38b082610b782e7e93e209c35fd730d399dee866 # v17
       with:
         name: foliage
         authToken: ${{ env.CACHIX_AUTH_TOKEN }}
